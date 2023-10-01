@@ -1,45 +1,48 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { useState } from 'react';
 import  data from './data.json';
 import cardComp from './card';
+import Modal from 'react-bootstrap/Modal';
+import { useState } from 'react';
+import CardCamp from './card';
+import Form from 'react-bootstrap/Form';
 
 
-function main (){
-    
+
+function Main (){
+  let [items, setItems]= useState([data]);
+   function handleSubmit(event){
+    event.preventDefault()
+      let searchedValue = event.target.search.value
+    let filteredItems = data.filter(function(item){return  item.title.toLowerCase().includes(searchedValue.toLowerCase())})
+   setItems(filteredItems);
+    }
     return(
         <>
-    <div style={{display:"flex",flexWrap:"wrap",justifyContent:"space-between",gap:'2px',marginTop:"3%"}}>
-
-   {data.map(function(item){
-  
-    
+     <Form className="d-flex" onSubmit={handleSubmit} id = "myform" >
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+              name ="Search"
+            />
+            <Button variant="outline-success" type='submit' >Search</Button>
+          </Form>
+        <div id="container">
+        {items.map(function(item){
+         
     return(
 
-        <Card style={{ width: '30%',height:'30%' }}>   
-    
-        
-        <Card.Img variant="top" src={item.image_url}/>
-        <Card.Body>
-          <Card.Title>{item.title}</Card.Title>
-          <Card.Text>
-            {item.description}
-          </Card.Text>
-          <Card.Text>
-          ☆(counter)
-          </Card.Text>
-          <Button variant="primary"> add to favaorites</Button>
-        </Card.Body>
-        </Card> 
+        <CardCamp image={item.image_url} title={item.title} description= {item.description} price={item.price} />
+         
 
            )
 }
     )
     }
     </div>
-
-
         </>
     )
 }
-export default main;
+export default Main;
