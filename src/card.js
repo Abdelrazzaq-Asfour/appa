@@ -37,9 +37,7 @@ import Modal from 'react-bootstrap/Modal';
           <Button variant="secondary" onClick={handleShow}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleShow}>
-            Save Changes
-          </Button>
+        
         </Modal.Footer>
       </Modal>
       </>
