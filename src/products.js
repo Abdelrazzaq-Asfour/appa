@@ -71,8 +71,3 @@ else{
 }
 
 export default Products;
-
-
-
-
-
