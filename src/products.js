@@ -46,11 +46,11 @@ else{
   <option value="all"> All Menu</option>
   {items.length !== 0 && (
     items
-      .map((item) => item.strCategory)
-      .filter((value) => self.indexOf(value) === index) 
-      .map((category) => (
-        <option key={strCategory} value={strCategory}>
-          {strCategory}
+    .map((item) => item.strCategory)
+    .filter((value, index, self) => self.indexOf(value) === index) 
+    .map((category) => (
+      <option key={category} value={category}>
+        {category}
         </option>
       ))
   )}

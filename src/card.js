@@ -1,37 +1,57 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
 
+function CardComp (props) {
+  let [show, setShow] = useState(false);
 
-function Header() {
-  return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container >
-        <Navbar.Brand href="">My Title</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/products">Products</Nav.Link>
-            <Nav.Link href="/favorites">Favorites</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-    
-  );
+  function handleShow(){
+    setShow(!show)
+  }
+
+  function saveToLocalStorage (){
+    if(JSON.parse(localStorage.getItem("favorites"))){
+      let stringData = localStorage.getItem("favorites")
+    let arr = JSON.parse(stringData);
+    let data = props
+    arr.push(data)
+    let stringedData = JSON.stringify(arr)
+
+    localStorage.setItem("favorites", stringedData)
+  }
+    else {
+      let arr = [];
+      let data = props
+      arr.push(data)
+      let stringedData = JSON.stringify(arr)
+  
+      localStorage.setItem("favorites", stringedData)
+    }
+  }
+    return(
+      <>
+        <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={props.image}/>
+        <Card.Body>
+          <Card.Title>{props.title}</Card.Title>
+          <Button variant="primary" onClick={handleShow}>Show Details</Button>
+          <Button onClick={saveToLocalStorage}>Add to Favorites</Button>
+        </Card.Body>
+      </Card>
+      <Modal show={show} onHide={handleShow}>
+        <Modal.Header closeButton>
+          <Modal.Title>{props.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{props.description} <br /> <b>Price: {props.price}$</b></Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleShow}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      </>
+    )
 }
 
-export default Header;
+export default CardComp;
